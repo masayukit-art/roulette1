@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ルーレット</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Hiragino Kaku Gothic ProN',Meiryo,Arial;margin:20px;background:#f7f8fb;color:#111}
+  .wrap{max-width:520px;margin:0 auto;text-align:center}
+  h1{font-size:1.2rem;margin-bottom:8px}
+  p.note{font-size:0.9rem;color:#555;margin-bottom:16px}
+  #wheel{width:300px;height:300px;border-radius:50%;margin:0 auto;position:relative;background:conic-gradient(#e74c3c 0deg 180deg,#3498db 180deg 360deg);box-shadow:0 6px 18px rgba(0,0,0,0.12);transition:transform 3s cubic-bezier(.1,.7,.1,1)}
+  #arrow{width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:22px solid #222;margin:12px auto}
+  .controls{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  button{padding:10px 16px;border-radius:8px;border:none;background:#111;color:#fff;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,0.08)}
+  #result{margin-top:12px;font-size:1.2rem;font-weight:700;color:#111}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>ルーレット</h1>
+    <p class="note">これはルーレットです。ランダムに回り、終了後に結果が画面に表示されます。</p>
+
+    <div id="arrow" aria-hidden="true"></div>
+    <div id="wheel" role="img" aria-label="ルーレット"></div>
+
+    <div class="controls">
+      <button id="spinBtn">回す</button>
+    </div>
+
+    <div id="result">結果: まだ</div>
+  </div>
+
+<script>
+const wheel = document.getElementById('wheel');
+const spinBtn = document.getElementById('spinBtn');
+const resultEl = document.getElementById('result');
+
+function getRandomAngle() {
+  return Math.floor(Math.random()*360);
+}
+
+spinBtn.addEventListener('click', () => {
+  resultEl.textContent = '回転中…';
+
+  // ランダム風に見せる回転（5〜9周＋ランダム角）
+  const baseRounds = Math.floor(Math.random()*5 + 5);
+  const randomAngle = getRandomAngle();
+  // 右（青）側に止まるように角度調整
+  const finalAngle = baseRounds*360 + 180 + Math.floor(Math.random()*180);
+
+  wheel.style.transform = `rotate(${finalAngle}deg)`;
+
+  setTimeout(() => {
+    resultEl.textContent = `結果: 右（青）`;
+  }, 3000);
+});
+</script>
+</body>
+</html>
